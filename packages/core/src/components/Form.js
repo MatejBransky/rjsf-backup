@@ -18,13 +18,14 @@ export default class Form extends PureComponent {
     noHtml5Validate: false
   };
 
-  state = getStateFromProps(this.props);
+  state = this.reducer(getStateFromProps(this.props));
 
   static getDerivedStateFromProps(props, state) {
     const keys = Object.keys(state.cachedProps);
     const changed = keys.some(key => props[key] !== state.cachedProps[key]);
     if (changed) {
-      return getStateFromProps(props, state);
+      const newState = getStateFromProps(props, state);
+      return props.reducer ? props.reducer(newState) : newState;
     }
     return null;
   }
@@ -62,6 +63,13 @@ export default class Form extends PureComponent {
     return null;
   }
 
+  reducer(newState) {
+    if (this.props.reducer) {
+      return this.props.reducer(newState);
+    }
+    return newState;
+  }
+
   onChange = (formData, newErrorSchema) => {
     const mustValidate = !this.props.noValidate && this.props.liveValidate;
     let state = { formData };
@@ -75,7 +83,7 @@ export default class Form extends PureComponent {
         errors: toErrorList(newErrorSchema)
       };
     }
-    setState(this, state, () => {
+    setState(this, this.reducer(state), () => {
       if (this.props.onChange) {
         this.props.onChange(this.state);
       }
@@ -276,6 +284,7 @@ if (process.env.NODE_ENV !== 'production') {
     validate: PropTypes.func,
     transformErrors: PropTypes.func,
     safeRenderCompletion: PropTypes.bool,
-    formContext: PropTypes.object
+    formContext: PropTypes.object,
+    reducer: PropTypes.func
   };
 }

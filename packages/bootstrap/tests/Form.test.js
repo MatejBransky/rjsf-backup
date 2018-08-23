@@ -1585,6 +1585,48 @@ describe('Form', () => {
     });
   });
 
+  describe('reducer', () => {
+    const schema = {
+      type: 'object',
+      properties: {
+        foo: { title: 'Foo', type: 'string' },
+        bar: { title: 'Bar', type: 'string' }
+      }
+    };
+
+    it('should update internal state', () => {
+      const reducer = state => {
+        let formData = state.formData;
+
+        if (formData.foo === 'boo') {
+          formData = {
+            ...formData,
+            bar: 'bongo!'
+          };
+        }
+
+        return {
+          ...state,
+          formData
+        };
+      };
+
+      const { getInstance, getByLabelText } = createFormComponent({
+        schema,
+        reducer
+      });
+
+      fireEvent.change(getByLabelText('Foo'), { target: { value: 'b' } });
+      expect(getInstance().state.formData).toEqual({ foo: 'b' });
+
+      fireEvent.change(getByLabelText('Foo'), { target: { value: 'boo' } });
+      expect(getInstance().state.formData).toEqual({
+        foo: 'boo',
+        bar: 'bongo!'
+      });
+    });
+  });
+
   describe('Attributes', () => {
     const formProps = {
       schema: {},
