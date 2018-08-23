@@ -1,13 +1,52 @@
 import React from 'react';
-import { fields } from '@react-schema-form/core';
 import memoize from 'memoize-one';
 
-const NumberField = props => {
-  if (props.schema.derived) {
-    return <span>{props.formData}</span>;
-  }
-  return <fields.NumberField {...props} />;
+const mask = number =>
+  typeof number === 'number' ? String(number).replace('.', ',') : '';
+const unmask = string => {
+  if (string === undefined) return string;
+  const number = Number(string.replace(',', '.'));
+  return isNaN(number) ? string : number;
 };
+
+class NumberField extends React.Component {
+  state = {
+    number: this.props.formData,
+    string: mask(this.props.formData)
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.formData !== state.number) {
+      return {
+        number: props.formData,
+        string: mask(props.formData)
+      };
+    }
+    return null;
+  }
+
+  handleChange = string => {
+    const number = unmask(string);
+    this.setState({ number, string });
+    this.props.onChange(number);
+  };
+
+  render() {
+    const { StringField } = this.props.registry.fields;
+
+    if (this.props.schema.derived) {
+      return <span>{mask(this.props.formData)}</span>;
+    }
+
+    return (
+      <StringField
+        {...this.props}
+        formData={this.state.string}
+        onChange={this.handleChange}
+      />
+    );
+  }
+}
 
 const sum = memoize((a, b) => {
   const result = a + b;
@@ -19,6 +58,7 @@ const sum = memoize((a, b) => {
 export default {
   schema: {
     type: 'object',
+    description: 'It supports numbers with comma as decimal symbol.',
     properties: {
       user: { type: 'string' },
       income: { type: 'number' },
@@ -26,10 +66,15 @@ export default {
       result: { type: 'number', derived: true }
     }
   },
-  reducer: ({ income = 0, outcome = 0, ...values }) => {
+  reducer: ({ income, outcome, ...values }) => {
     /*eslint-disable-next-line*/
     console.log('reducer called!');
-    return { ...values, income, outcome, result: sum(income, outcome) };
+    return {
+      ...values,
+      income,
+      outcome,
+      result: sum(income || 0, outcome || 0)
+    };
   },
   fields: { NumberField }
 };
