@@ -63,7 +63,12 @@ export default {
       user: { type: 'string' },
       income: { type: 'number' },
       outcome: { type: 'number' },
-      result: { type: 'number', derived: true }
+      result: {
+        type: 'number',
+        derived: true,
+        description:
+          'The result is reevaluated only if income or outcome was changed'
+      }
     }
   },
   reducer: ({ income, outcome, ...values }) => {
