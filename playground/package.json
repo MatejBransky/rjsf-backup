@@ -1,6 +1,6 @@
 {
   "name": "playground",
-  "version": "2.0.3",
+  "version": "2.1.0-alpha.0",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@reach/router": "^1.1.1",
-    "@react-schema-form/bootstrap": "^2.0.3",
+    "@react-schema-form/bootstrap": "^2.1.0-alpha.0",
     "downshift": "^2.1.5",
     "json-format-highlight": "^1.0.1",
     "react": "^16.4.2",
