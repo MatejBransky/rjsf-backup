@@ -1595,20 +1595,15 @@ describe('Form', () => {
     };
 
     it('should update internal state', () => {
-      const reducer = state => {
-        let formData = state.formData;
-
+      const reducer = formData => {
         if (formData.foo === 'boo') {
-          formData = {
+          return {
             ...formData,
             bar: 'bongo!'
           };
         }
 
-        return {
-          ...state,
-          formData
-        };
+        return formData;
       };
 
       const { getInstance, getByLabelText } = createFormComponent({

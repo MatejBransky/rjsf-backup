@@ -25,7 +25,9 @@ export default class Form extends PureComponent {
     const changed = keys.some(key => props[key] !== state.cachedProps[key]);
     if (changed) {
       const newState = getStateFromProps(props, state);
-      return props.reducer ? props.reducer(newState) : newState;
+      return props.reducer
+        ? { ...newState, formData: props.reducer(newState.formData) }
+        : newState;
     }
     return null;
   }
@@ -65,7 +67,7 @@ export default class Form extends PureComponent {
 
   reducer(newState) {
     if (this.props.reducer) {
-      return this.props.reducer(newState);
+      return { ...newState, formData: this.props.reducer(newState.formData) };
     }
     return newState;
   }

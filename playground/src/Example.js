@@ -19,7 +19,7 @@ class Example extends Component {
           {...example}
           schema={schema}
           uiSchema={uiSchema}
-          formData={formData}
+          formData={example.formData}
           onChange={this.handleChange}
         />
         <Print data={formData} />

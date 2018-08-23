@@ -17,6 +17,7 @@ import customObject from './customObject';
 import alternatives from './alternatives';
 import propertyDependencies from './propertyDependencies';
 import schemaDependencies from './schemaDependencies';
+import derivedValues from './derivedValues';
 
 export default [
   {
@@ -113,5 +114,10 @@ export default [
     path: 'schema-dependencies',
     title: 'Schema dependencies',
     formProps: schemaDependencies
+  },
+  {
+    path: 'derived-values',
+    title: 'Derived values',
+    formProps: derivedValues
   }
 ];
