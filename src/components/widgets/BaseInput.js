@@ -27,7 +27,7 @@ function BaseInput(props) {
     return props.onChange(value === "" ? options.emptyValue : value);
   };
 
-  const { rawErrors, ...cleanProps } = inputProps;
+  const { errors, ...cleanProps } = inputProps;
 
   return (
     <input
