@@ -1,6 +1,9 @@
 import React from "react";
 
-export default (WrappedForm, fields) => (name, theme) => {
+import Form from "./Form";
+import fields from "./fields";
+
+export const initWithTheme = (WrappedForm, fields) => (name, theme) => {
   class WithTheme extends React.Component {
     state = mergeComponents(this.props);
 
@@ -38,3 +41,5 @@ export default (WrappedForm, fields) => (name, theme) => {
     };
   }
 };
+
+export default initWithTheme(Form, fields);

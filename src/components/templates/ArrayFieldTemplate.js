@@ -27,7 +27,7 @@ export default function ArrayFieldTemplate(props) {
       <div
         className="row array-item-list"
         key={`array-item-list-${props.idSchema.$id}`}>
-        {props.items && props.items.map(p => DefaultArrayItem(p))}
+        {props.items && props.items.map(p => ArrayItem(p))}
       </div>
 
       {props.canAdd && (
@@ -82,7 +82,7 @@ function IconBtn(props) {
 }
 
 // Used in the two templates
-function DefaultArrayItem(props) {
+function ArrayItem(props) {
   const btnStyle = {
     flex: 1,
     paddingLeft: 6,

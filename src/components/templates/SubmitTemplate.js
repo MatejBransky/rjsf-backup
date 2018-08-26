@@ -2,11 +2,11 @@ import React from "react";
 
 function SubmitTemplate() {
   return (
-    <p>
+    <div>
       <button type="submit" className="btn btn-info">
         Submit
       </button>
-    </p>
+    </div>
   );
 }
 
